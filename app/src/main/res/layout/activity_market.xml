@@ -62,8 +62,8 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/ScrollPage"
+    <ListView
+        android:id="@+id/ItemListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="20dp"
@@ -81,49 +81,8 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            android:orientation="vertical">-->
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/ShopItem"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="120dp"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:padding="5dp">-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/ItemImage"-->
-<!--                    android:layout_width="110dp"-->
-<!--                    android:layout_height="110dp"-->
-<!--                    android:background="#E1DADA"-->
-<!--                    tools:srcCompat="@drawable/a5949a0357f22719655495d70553015b" />-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_margin="12dp"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/textView"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="TextView" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/textView2"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="TextView" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/textView3"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="TextView" />-->
-
-<!--                </LinearLayout>-->
-<!--            </LinearLayout>-->
 <!--        </LinearLayout>-->
-    </ScrollView>
+    </ListView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/Navigation"
