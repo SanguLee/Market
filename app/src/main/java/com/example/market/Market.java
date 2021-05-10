@@ -4,17 +4,22 @@ package com.example.market;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class Market extends AppCompatActivity {
     static Boolean isScholar = false;
@@ -37,16 +42,24 @@ public class Market extends AppCompatActivity {
 
         sv.setOnQueryTextListener(new SearchEventListener(searchTextSubmit, searchTextChanged));
 
-        ListView itemListView = (ListView)findViewById(R.id.ItemListView);
+        ListView itemListView = (ListView)findViewById(R.id.ItemListContainer);
 
-        for(int i=0 ; i<10;i++) {
-            ItemListAdapter.sampleItems.add(new Item("sample " + i));
-            Database.writeData("sample", i, ItemListAdapter.sampleItems.get(i).itemText);
-        }
-        itemListAdapter = new ItemListAdapter(ItemListAdapter.sampleItems);
+        itemListAdapter = new ItemListAdapter();
+        itemListAdapter.TestMode(this);
         itemListView.setAdapter(itemListAdapter);
 
-
+        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent itemPage = new Intent(Market.this, ItemPage.class);
+                Item item = (Item) parent.getItemAtPosition(position);
+                itemPage.putExtra("name", item.itemText.name);
+                itemPage.putExtra("price", item.itemText.price);
+                itemPage.putExtra("context", item.itemText.context);
+                itemPage.putExtra("image", Item.BitToBytes(item.getImage(0)));
+                startActivity(itemPage);
+            }
+        });
     }
 
     class CheckEventListener implements CompoundButton.OnCheckedChangeListener{
@@ -57,7 +70,7 @@ public class Market extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked) switchText.setText("checked");
-            else switchText.setText("not..");
+            else switchText.setText("");
         }
     }
 
@@ -66,19 +79,19 @@ public class Market extends AppCompatActivity {
         TextView searchTextChanged;
 
         private SearchEventListener(TextView searchTextSubmit, TextView searchTextChanged){
-            this.searchTextSubmit = searchTextSubmit;
-            this.searchTextChanged = searchTextChanged;
+            //this.searchTextSubmit = searchTextSubmit;
+            //this.searchTextChanged = searchTextChanged;
         }
         @Override
         public boolean onQueryTextSubmit(String query) {
-            searchTextSubmit.setText(query);
+            //searchTextSubmit.setText(query);
             itemListAdapter.searchItem(query);
             return false;
         }
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            searchTextChanged.setText(newText);
+            //searchTextChanged.setText(newText);
             itemListAdapter.searchItem(newText);
             return false;
         }

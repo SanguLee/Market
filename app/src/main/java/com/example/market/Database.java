@@ -15,8 +15,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import static android.content.ContentValues.TAG;
 
 public class Database {
     private static DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
@@ -24,7 +27,7 @@ public class Database {
     private static final long ONE_MEGABYTE = 1024 * 1024;
     private static Bitmap bitmap = null;
     private static int id = 0;
-
+    private static Object readingData = null;
     public static void writeData(String field, int id, Object data){
         //incrementCounter(databaseRef.child(field));
         databaseRef.child(field).child(Integer.toString(id)).setValue(data)
@@ -41,8 +44,18 @@ public class Database {
                 });
     }
 
-    public static Object readData(String field, String name){
-        DatabaseReference readDataField = databaseRef.child(field);
+    public static <T> T readData(String field, int id){
+        databaseRef.child(field).child(Integer.toString(id)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return null;
     }
 
