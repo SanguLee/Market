@@ -13,83 +13,50 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import static android.content.ContentValues.TAG;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Database {
-    private static DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
-    private static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+public class Database  {
+    private static final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+    private static final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     private static final long ONE_MEGABYTE = 1024 * 1024;
-    private static Bitmap bitmap = null;
-    private static int id = 0;
-    private static Object readingData = null;
-    public static void writeData(String field, int id, Object data){
-        //incrementCounter(databaseRef.child(field));
-        databaseRef.child(field).child(Integer.toString(id)).setValue(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("write","success to write ");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("write","failed to write ");
-                    }
-                });
+    private Bitmap bitmap = null;
+
+    public static <T extends Text> void writeData(T texts){
+        databaseRef.child(texts.getClass().getSimpleName()).push().setValue(texts);
     }
-
-    public static <T> T readData(String field, int id){
-        databaseRef.child(field).child(Integer.toString(id)).addValueEventListener(new ValueEventListener() {
+    public static <T extends Text> ArrayList<T> readDataInto(Class<T> ClassName){
+        ArrayList<T> textList = new ArrayList<>();
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot != null) {
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        textList.add(snapshot.getValue(ClassName));
+                    }
+                    Log.d("dataSnapshot", "reading data " + textList.toString());
+                }
+                else
+                    Log.d("dataSnapshot", "null data");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("dataSnapshot",error.getMessage());
             }
         });
-        return null;
+        return textList;
     }
 
-    public static void incrementCounter(DatabaseReference database) {
-        database.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(final MutableData currentData) {
-                if (currentData.getValue() == null) {
-                    currentData.setValue(1);
-                } else {
-                    long currentId = (long)currentData.getValue();
-                    currentData.setValue((long)currentData.getValue()+1);
-                }
-                return Transaction.success(currentData);
-            }
-
-            @Override
-            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                if (error != null) {
-                    Log.d("auto-increment","Firebase counter increment failed.");
-                } else {
-                    Log.d("auto-increment","Firebase counter increment succeeded.");
-                }
-            }
-        });
-    }
-    public static void increment(DatabaseReference databaseRef){
+    public void writeImage(String field, Bitmap bitmap){
 
     }
-
-    public static void writeImage(String field, Bitmap bitmap){
-
-    }
-    public static Bitmap readImage(@Nullable String field, String name) {
+    public Bitmap readImage(@Nullable String field, String name) {
         String path= name + ".jpg";
         if(field != null) path = field + "/" + path;
         path = "images/" + path;
@@ -111,3 +78,44 @@ public class Database {
     }
 }
 
+class Data<T extends Text> {
+    String id;
+    public T text;
+    public ArrayList<Bitmap> images = new ArrayList<>();
+
+    public Class className;
+    public String dataName;
+
+    public Data(T text){
+        this.text = text;
+        this.className = this.text.getClass();
+        this.dataName = this.text.getClass().getSimpleName();
+    }
+    public Data(T text, Bitmap... bitmaps){
+        this(text); addImages(bitmaps);
+    }
+
+    public void addImages(Bitmap... bitmaps){
+        for(Bitmap bitmap : bitmaps){
+            images.add(bitmap);
+        }
+    }
+    public Bitmap getImage(int index){
+        if(this.images.size()>0)
+            return this.images.get(index);
+        return null;
+    }
+
+    public static byte[] getBytesFromBitmap(Bitmap bitmap){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        byte[] bytes = stream.toByteArray();
+        return bytes;
+    }
+    public static Bitmap getBitmapFromBytes(byte[] bytes){
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return bitmap;
+    }
+}
+interface Text {
+}
