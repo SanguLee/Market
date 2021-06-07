@@ -9,80 +9,89 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="48dp"
         android:layout_gravity="top"
         android:background="@color/design_default_color_secondary_variant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="0">
 
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="240dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/searchTextSubmit"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="48dp"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
+        <ImageView
+            android:id="@+id/accountImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="30dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/setRange"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/teal_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/searchTextChanged"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="78dp"
-            app:layout_constraintStart_toStartOf="@+id/searchView"
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@+id/spinner"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner3"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/spinner2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch1"
-            android:layout_width="100dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/test"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="62dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
         android:id="@+id/ItemListContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/Navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/ItemList"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
-<!--        </LinearLayout>-->
-    </ListView>
+        app:layout_constraintTop_toBottomOf="@id/setRange"
+        app:layout_constraintVertical_bias="0.425"
+        app:layout_constraintVertical_weight="1"></ListView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/Navigation"
@@ -92,6 +101,9 @@
         android:background="@color/design_default_color_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_weight="1">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

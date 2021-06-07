@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Market</string>
+    <string name="editTextIDHint">아이디</string>
+    <string name="editTextPWHint">비밀번호</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="submit">Submit</string>
 </resources>

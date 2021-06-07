@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <EditText
+        android:id="@+id/loginTextEmail"
+        android:layout_width="280dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="160dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/editTextIDHint"
+        android:inputType="textEmailAddress"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/loginTextPassword"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/editTextPWHint"
+        android:inputType="textPassword"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintEnd_toEndOf="@id/loginTextEmail"
+        app:layout_constraintStart_toStartOf="@id/loginTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/loginTextEmail" />
+
+    <Button
+        android:id="@+id/loginButtonLogin"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/login"
+        app:layout_constraintEnd_toEndOf="@id/loginTextEmail"
+        app:layout_constraintStart_toStartOf="@id/loginTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/loginTextPassword" />
+
+    <Button
+        android:id="@+id/loginButtonSignup"
+        android:layout_width="136dp"
+        android:layout_height="52dp"
+        android:text="@string/sign_up"
+        app:layout_constraintEnd_toEndOf="@id/loginTextEmail"
+        app:layout_constraintTop_toTopOf="@id/loginButtonForgot" />
+
+    <Button
+        android:id="@+id/loginButtonForgot"
+        android:layout_width="136dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/forgot_password"
+        app:layout_constraintStart_toStartOf="@id/loginTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/loginButtonLogin" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
