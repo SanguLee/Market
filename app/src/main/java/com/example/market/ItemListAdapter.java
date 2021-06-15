@@ -3,6 +3,7 @@ package com.example.market;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +11,56 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class ItemListAdapter extends BaseAdapter {
     private ImageView itemImageView;
-    private TextView itemNameView;
+    private TextView itemTitleView;
     private TextView itemPriceView;
     private TextView itemContextView;
 
-    public ArrayList<Data<Item>> allDataList = new ArrayList<>();
-    private ArrayList<Data<Item>> viewDataList = new ArrayList<>();
+    public ArrayList<Data<PostItem>> allDataList = new ArrayList<>();
+    private ArrayList<Data<PostItem>> viewDataList = new ArrayList<>();
 
-    public void TestMode(Context context){
-        ArrayList<Bitmap> SampleImages = new ArrayList<>();
+    public ItemListAdapter(Context context){
+        getItemList(context);
+    }
+
+    private void getItemList(Context context) {
         Bitmap SampleImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.a5949a0357f22719655495d70553015b);
-        SampleImages.add(SampleImage);
 
-        for(int i=0 ; i<10;i++) {
-            Item item = new Item("sample" +i, "1000", "this is not sentence" );
-            Data data = new Data(item, SampleImage);
-            allDataList.add(data);
-        }
-        viewDataList.addAll(this.allDataList);
+        allDataList.clear();
+
+        FirebaseDatabase.getInstance().getReference().child("post").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Data<PostItem> postItemData = new Data<PostItem>(postSnapshot.getValue(PostItem.class), SampleImage);
+                        Log.d("post", postSnapshot.getValue(PostItem.class).toString());
+                        allDataList.add(postItemData);
+                    }
+                    repaint();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    private void repaint(){
+        viewDataList.clear();
+        viewDataList.addAll(allDataList);
         this.notifyDataSetChanged();
     }
 
@@ -42,12 +71,12 @@ public class ItemListAdapter extends BaseAdapter {
         }
         else {
             for(int i = 0; i< allDataList.size(); i++){
-                if(allDataList.get(i).text.name.toLowerCase().contains(searchText)) {
+                if(allDataList.get(i).text.title.toLowerCase().contains(searchText)) {
                     viewDataList.add(allDataList.get(i));
                 }
             }
         }
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @Override
@@ -76,30 +105,18 @@ public class ItemListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
 
-        itemNameView = (TextView) convertView.findViewById(R.id.itemBriefName);
+        itemTitleView = (TextView) convertView.findViewById(R.id.itemBriefTitle);
         itemPriceView = (TextView) convertView.findViewById(R.id.itemBriefPrice);
         itemContextView = (TextView) convertView.findViewById(R.id.itemBriefContext);
         itemImageView = (ImageView) convertView.findViewById(R.id.ItemBriefImage);
 
-        Data<Item> item = allDataList.get(position);
+        Data<PostItem> item = viewDataList.get(position);
 
-        itemNameView.setText(item.text.name);
+        itemTitleView.setText(item.text.title);
         itemPriceView.setText(item.text.price);
         itemContextView.setText(item.text.context);
-        itemImageView.setImageBitmap(item.getImage(0));
+        itemImageView.setImageBitmap(item.image);
 
         return convertView;
     }
-}
-
-class Item implements Text{
-        public String name;
-        public String price;
-        public String context;
-        public Item(String name, String price, String context){
-            this.name = name; this.price = price; this.context = context;
-        }
-        public Item(String name){
-            this(name,"1000","This Sentence is not Sentence.");
-        }
 }

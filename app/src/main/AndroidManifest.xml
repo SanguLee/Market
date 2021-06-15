@@ -13,20 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Market">
-
-        <activity android:name=".EmptyActivity">
+        <activity android:name=".SignUpInfo">
 
         </activity>
+
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/actions" />
+
+        <activity android:name=".EmptyActivity" />
         <activity android:name=".SignUp" />
-        <activity android:name=".Login">
-
-        </activity>
+        <activity android:name=".Login" />
         <activity android:name=".ItemPage" />
         <activity android:name=".Post" />
-        <activity android:name=".Market"
+        <activity
+            android:name=".Market"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

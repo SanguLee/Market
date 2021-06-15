@@ -20,26 +20,20 @@ public class ItemPage extends AppCompatActivity {
 
         intent = getIntent();
 
-        String name = intent.getStringExtra("name");
+        String title = intent.getStringExtra("title");
         String price = intent.getStringExtra("price");
         String context = intent.getStringExtra("context");
         Bitmap image = Data.getBitmapFromBytes(intent.getByteArrayExtra("image"));
 
-        Data<Item> item = new Data(new Item(name, price, context), image);
-
-        item.text.name = name;
-        item.text.price = price;
-        item.text.context = context;
-
         ImageView itemImage = (ImageView) findViewById(R.id.itemImage);
-        TextView itemName = (TextView) findViewById(R.id.ItemName);
+        TextView itemTitle = (TextView) findViewById(R.id.ItemName);
         TextView itemPrice = (TextView) findViewById(R.id.ItemPrice);
         TextView itemContext = (TextView) findViewById(R.id.ItemContext);
 
-        itemImage.setImageBitmap(item.getImage(0));
-        itemName.setText(item.text.name);
-        itemPrice.setText(item.text.price);
-        itemContext.setText(item.text.context);
+        itemImage.setImageBitmap(image);
+        itemTitle.setText(title);
+        itemPrice.setText(price);
+        itemContext.setText(context);
 
     }
 }

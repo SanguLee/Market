@@ -17,6 +17,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -42,6 +46,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email = loginTextEmail.getText().toString();
+                Log.d("email", email);
                 String password = loginTextPassword.getText().toString();
 
                 if(email.isEmpty() || password.isEmpty()) {
@@ -49,13 +54,41 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                else if(Database.signInWithEmail(Login.this, email, password)){
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    String message = "어서오세요 " + user.getDisplayName() + "님";
-                    Toast.makeText(view.getContext(),message, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Login.this, Market.class));
+                else{
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        Log.d("signIn", "is Successful");
+
+                                        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+                                            FirebaseDatabase.getInstance().getReference()
+                                                    .addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                            AccountInfo ai = snapshot.child(id).getValue(AccountInfo.class);
+                                                            Toast.makeText(Login.this, "환영합니다. " + ai.name + " 님", Toast.LENGTH_SHORT).show();
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                                        }
+                                                    });
+
+
+                                        Intent intent = new Intent(Login.this, Market.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    } else {
+                                        Log.d("signIn", "is Failure");
+                                        Toast.makeText(view.getContext(), "등록되지 않은 아이디 또는 비밀번호입니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
-                else Toast.makeText(view.getContext(), "등록되지 않은 아이디 또는 비밀번호입니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -78,8 +111,13 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loginTextEmail.setText(null);
-        loginTextPassword.setText(null);
-        FirebaseAuth.getInstance().signOut();
+        loginTextEmail.setText("");
+        loginTextPassword.setText("");
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Log.d("Login on start","sign out");
+            FirebaseAuth.getInstance().signOut();
+        }
+        else
+            Log.d("Login on start", "null start");
     }
 }

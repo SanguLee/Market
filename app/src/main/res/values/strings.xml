@@ -6,4 +6,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="submit">Submit</string>
+    <string name="signupInfoName">이름(별명) 입력</string>
+    <string name="signupInfoPhone">010-1234-5678</string>
+    <string name="signupInfoAddress">한누리대 411</string>
 </resources>

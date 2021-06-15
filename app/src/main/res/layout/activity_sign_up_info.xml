@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".SignUpInfo">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="280dp"
@@ -15,34 +15,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/signupTextPassword"
+            android:id="@+id/signupInfoName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:autofillHints=""
             android:background="@android:drawable/edit_text"
             android:ems="10"
-            android:hint="비밀번호"
-            android:inputType="textPassword"
+            android:hint="@string/signupInfoName"
+            android:inputType="textPersonName"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signupTextEmail" />
-
-        <EditText
-            android:id="@+id/signupTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:drawable/edit_text"
-            android:ems="10"
-            android:hint="이메일@주소.입력"
-            android:inputType="textEmailAddress"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="8dp"
+            android:paddingEnd="0dp"
             android:paddingBottom="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -50,33 +33,71 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/signupTextPasswordRe"
+            android:id="@+id/signupInfoPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:autofillHints=""
             android:background="@android:drawable/edit_text"
             android:ems="10"
-            android:hint="비밀번호 확인"
-            android:inputType="textPassword"
+            android:hint="@string/signupInfoPhone"
+            android:inputType="phone"
             android:paddingStart="10dp"
             android:paddingTop="10dp"
-            android:paddingEnd="8dp"
+            android:paddingEnd="0dp"
             android:paddingBottom="18dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signupTextPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/signupInfoName" />
 
-        <Button
-            android:id="@+id/signupButtonSubmit"
+        <EditText
+            android:id="@+id/signupInfoAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="@string/submit"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:background="@android:drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/signupInfoAddress"
+            android:inputType="textPostalAddress"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signupTextPasswordRe" />
+            app:layout_constraintTop_toBottomOf="@+id/signupInfoPhone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signupInfoAddress">
+
+            <Button
+                android:id="@+id/signupInfoButtonRater"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="나중에" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
+
+            <Button
+                android:id="@+id/signupInfoButtonSubmit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="완료" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
