@@ -3,9 +3,7 @@ package com.example.market;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,7 +79,7 @@ public class SignUpInfo extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(SignUpInfo.this, "환영합니다. " + ai.name + " 님", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(SignUpInfo.this, Market.class);
+                    Intent intent = new Intent(SignUpInfo.this, ItemList.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -118,7 +116,7 @@ public class SignUpInfo extends AppCompatActivity {
         @Override
         protected void OnPosClickListener(View view) {
             addAccountInfo(new AccountInfo("user","",""));
-            Intent intent = new Intent(SignUpInfo.this, Market.class);
+            Intent intent = new Intent(SignUpInfo.this, ItemList.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

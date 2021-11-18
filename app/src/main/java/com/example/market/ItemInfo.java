@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ItemPage extends AppCompatActivity {
+public class ItemInfo extends AppCompatActivity {
     Intent intent;
 
     @Override

@@ -11,12 +11,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Market extends AppCompatActivity {
+public class ItemList extends AppCompatActivity {
     String id;
     AccountInfo ai;
     static Boolean isScholar = false;
@@ -59,7 +57,7 @@ public class Market extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-                    Intent intent = new Intent(Market.this, Post.class);
+                    Intent intent = new Intent(ItemList.this, Post.class);
                     intent.putExtra("id", id);
                     intent.putExtra("name", ai.name);
                     startActivity(intent);
@@ -79,13 +77,13 @@ public class Market extends AppCompatActivity {
 
         ListView itemListView = (ListView)findViewById(R.id.ItemListContainer);
 
-        itemListAdapter = new ItemListAdapter(Market.this);
+        itemListAdapter = new ItemListAdapter(ItemList.this);
         itemListView.setAdapter(itemListAdapter);
 
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent itemPage = new Intent(Market.this, ItemPage.class);
+                Intent itemPage = new Intent(ItemList.this, ItemInfo.class);
                 Data<PostItem> item = (Data<PostItem>) parent.getItemAtPosition(position);
                 itemPage.putExtra("title", item.text.title);
                 itemPage.putExtra("price", item.text.price);
@@ -160,7 +158,7 @@ public class Market extends AppCompatActivity {
             Intent intent;
             switch (num) {
                 case 1 :
-                    intent = new Intent(Market.this, Login.class);
+                    intent = new Intent(ItemList.this, Login.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 case 2 :
@@ -168,7 +166,7 @@ public class Market extends AppCompatActivity {
                     dismiss();
                     setAccountImageColor(); break;
                 case 3 :
-                    intent = new Intent(Market.this, Login.class);
+                    intent = new Intent(ItemList.this, Login.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
             }

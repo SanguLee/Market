@@ -24,10 +24,10 @@
         <activity android:name=".EmptyActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />
-        <activity android:name=".ItemPage" />
+        <activity android:name=".ItemInfo" />
         <activity android:name=".Post" />
         <activity
-            android:name=".Market"
+            android:name=".ItemList"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
